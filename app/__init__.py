@@ -1,3 +1,5 @@
+"""A python oop Tic Tac Toe implementation."""
+
 from app.game import Game
 
 __author__: str = 'Sigmanificient'
