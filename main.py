@@ -4,11 +4,7 @@ import random
 class Board:
 
     def __init__(self):
-        self.board = [
-            [None, None, None],
-            [None, None, None],
-            [None, None, None]
-        ]
+        self.board = [[None, None, None] for _ in range(3)]
 
     def __getitem__(self, index):
         row, col = self._get_row_col(index)
@@ -22,14 +18,10 @@ class Board:
         return '\n'.join(' '.join(symbol or ' ' for symbol in line) for line in self.board)
 
     def is_empty(self, index):
-        return
-
-        # TODO: return whether to box at index is empty or not
+        return self[index] is None
 
     def set_box(self, index, symbol):
-        pass
-
-        # TODO: set box oof index to correct symbol
+        self[index] = symbol
 
     @staticmethod
     def _get_row_col(index):
