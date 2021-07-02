@@ -29,6 +29,10 @@ class Board:
 
         # TODO: set box oof index to correct symbol
 
+    @staticmethod
+    def _get_row_col(index):
+        return divmod(index - 1, 3)
+
     @property
     def is_win(self):
         """Check if there is a win condition."""
