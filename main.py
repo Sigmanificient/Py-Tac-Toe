@@ -73,7 +73,7 @@ class Player:
         choice: str = input("Where do you want to play: ")
 
         if not choice.isdigit():
-            print(f"Please enter a valid number.")
+            print("Please enter a valid number.")
             return self.choose()
 
         choice: int = int(choice)
