@@ -62,10 +62,16 @@ class Player:
         self.symbol = symbol
 
     def choose(self):
-        pass
+        choice = input("Where do you want to play: ")
 
-        # TODO: ask where to play
-        # TODO: if choice not valid  (1..9) => retry
+        if not choice.isdigit():
+            return self.choose()
+
+        choice = int(choice)
+        if choice > 9 or choice < 0:
+            return self.choose()
+
+        return choice
 
 
 class Game:
