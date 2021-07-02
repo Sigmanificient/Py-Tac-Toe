@@ -4,27 +4,26 @@ import random
 class Board:
 
     def __init__(self):
+        """A class to represent the tie tac toe board."""
         self.board = [[None] * 3 for _ in range(3)]
 
     def __getitem__(self, index):
+        """Gives the symbol of a box from the board."""
         row, col = self._get_row_col(index)
         return self.board[row][col]
 
     def __setitem__(self, index, value):
+        """Set the box with payer symbol."""
         row, col = self._get_row_col(index)
         self.board[row][col] = value
 
     def __repr__(self):
+        """Return a printable representation of the board."""
         return '\n'.join(' '.join(symbol or ' ' for symbol in line) for line in self.board)
-
-    def is_empty(self, index):
-        return self[index] is None
-
-    def set_box(self, index, symbol):
-        self[index] = symbol
 
     @staticmethod
     def _get_row_col(index):
+        """Translate index into row and column."""
         return divmod(index - 1, 3)
 
     @property
@@ -34,20 +33,22 @@ class Board:
 
     @property
     def is_full(self):
+        """Check if the board contains any empty boxes."""
         return all(None not in line for line in self.board)
 
     @property
     def is_line(self):
+        """Check if the board contains a whole line of same symbol."""
         return any(a == b == c and a is not None for a, b, c in self.board)
 
     @property
     def is_column(self):
-        """For every column of the board, checks if 3 time same symbol."""
+        """checks if the board contains a column of same symbol."""
         return any(a == b == c and a is not None for a, b, c in zip(*self.board))
 
     @property
     def is_diagonals(self):
-        """Check if one of the two diagonals have the 3 same symbol """
+        """Check if one of the two diagonals have the same symbol."""
         if self.board[1][1] is None:
             return False
 
@@ -63,9 +64,11 @@ class Board:
 class Player:
 
     def __init__(self, symbol):
+        """A class that keep the symbol of the player and validate user input."""
         self.symbol = symbol
 
     def choose(self):
+        """Force the player to enter an valid index."""
         choice = input("Where do you want to play: ")
 
         if not choice.isdigit():
@@ -83,38 +86,52 @@ class Player:
 class Game:
 
     def __init__(self):
+        """Core game class."""
         self.board = Board()
         self.players = [Player('x'), Player('o')]
 
         if random.randint(0, 1):
             self.players = self.players[::-1]
 
-        self.is_running = True
+        self.is_running = False
+
+    def handle_player_turn(self, player):
+        """Player turn behavior."""
+        print(f"Player {player.symbol} turns !")
+        print(self.board)
+
+        index = player.choose()
+
+        while self.board[index] is not None:
+            print("Please select a empty box !")
+            index = player.choose()
+
+        self.board[index] = player.symbol
+
+    def handle_game_loop(self):
+        """Game loop repeated until the game is over."""
+        for player in self.players:
+            self.handle_player_turn(player)
+
+            if self.board.is_win:
+                print(f"{player.symbol} won the game !")
+                self.is_running = False
+                break
+
+            if self.board.is_full:
+                print("It's a tie !")
+                self.is_running = False
+                break
 
     def main(self):
+        """Game entry and main function"""
+        self.is_running = True
+
         while self.is_running:
-
-            for player in self.players:
-                print(f"Player {player.symbol} turns !")
-                print(self.board)
-                index = player.choose()
-
-                while not self.board.is_empty(index):
-                    print("Please select a empty box !")
-                    index = player.choose()
-
-                self.board[index] = player.symbol
-
-                if self.board.is_win:
-                    print(f"{player.symbol} won the game !")
-                    self.is_running = False
-                    break
-
-                if self.board.is_full:
-                    print("It's a tie !")
-                    self.is_running = False
-                    break
+            self.handle_game_loop()
 
 
-game = Game()
-game.main()
+if __name__ == '__main__':
+    game = Game()
+    game.main()
+
