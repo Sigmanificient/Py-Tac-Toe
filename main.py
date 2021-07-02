@@ -10,11 +10,13 @@ class Board:
             [None, None, None]
         ]
 
-    def __getitem__(self, item):
-        pass
+    def __getitem__(self, index):
+        row, col = self._get_row_col(index)
+        return self.board[row][col]
 
     def __setitem__(self, item, value):
-        pass
+        row, col = self._get_row_col(index)
+        self.board[row][col] = value
 
     def __repr__(self):
         return '\n'.join(' '.join(symbol or ' ' for symbol in line) for line in self.board)
