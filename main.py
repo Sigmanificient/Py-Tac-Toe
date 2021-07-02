@@ -10,7 +10,7 @@ class Board:
         row, col = self._get_row_col(index)
         return self.board[row][col]
 
-    def __setitem__(self, item, value):
+    def __setitem__(self, index, value):
         row, col = self._get_row_col(index)
         self.board[row][col] = value
 
@@ -65,10 +65,12 @@ class Player:
         choice = input("Where do you want to play: ")
 
         if not choice.isdigit():
+            print(f"Please enter a valid number.")
             return self.choose()
 
         choice = int(choice)
-        if choice > 9 or choice < 0:
+        if choice > 9 or choice < 1:
+            print("Please choose an box between 1 and 9.")
             return self.choose()
 
         return choice
@@ -89,6 +91,7 @@ class Game:
         while self.is_running:
 
             for player in self.players:
+                print(f"Player {player.symbol} turns !")
                 print(self.board)
                 index = player.choose()
 
@@ -96,7 +99,9 @@ class Game:
                     print("Please select a empty box !")
                     index = player.choose()
 
-                if self.board.is_win():
+                self.board[index] = player.symbol
+
+                if self.board.is_win:
                     print(f"{player.symbol} won the game !")
                     self.is_running = False
                     break  # exit the for loop
