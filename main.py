@@ -45,6 +45,13 @@ class Board:
 
         return False
 
+    def show(self):
+        print(
+            '\n'.join(
+                ' '.join(symbol or ' ' for symbol in line) for line in self.board
+            )
+        )
+
 
 class Player:
 
@@ -74,6 +81,7 @@ class Game:
         while self.is_running:
 
             for player in self.players:
+                print(self.board)
                 _ = player.choose()
 
                 # TODO: While index is not valid, ask again
