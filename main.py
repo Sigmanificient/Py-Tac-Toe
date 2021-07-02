@@ -4,7 +4,7 @@ import random
 class Board:
 
     def __init__(self):
-        self.board = [[None, None, None] for _ in range(3)]
+        self.board = [[None] * 3 for _ in range(3)]
 
     def __getitem__(self, index):
         row, col = self._get_row_col(index)
@@ -31,6 +31,10 @@ class Board:
     def is_win(self):
         """Check if there is a win condition."""
         return self.is_diagonals or self.is_line or self.is_column
+
+    @property
+    def is_full(self):
+        return all(None not in line for line in self.board)
 
     @property
     def is_line(self):
@@ -104,7 +108,12 @@ class Game:
                 if self.board.is_win:
                     print(f"{player.symbol} won the game !")
                     self.is_running = False
-                    break  # exit the for loop
+                    break
+
+                if self.board.is_full:
+                    print("It's a tie !")
+                    self.is_running = False
+                    break
 
 
 game = Game()
