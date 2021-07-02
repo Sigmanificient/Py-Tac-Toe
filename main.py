@@ -22,7 +22,7 @@ class Board:
 
     def is_win(self):
         """Check if there is a win condition."""
-        return self.is_line() or self.is_column()
+        return self.is_line() or self.is_column() or self.is_diagonals()
 
     def is_line(self):
         pass
@@ -31,6 +31,19 @@ class Board:
     def is_column(self):
         """For every column of the board, checks if 3 time same symbol."""
         return any(a == b == c and a is not None for a, b, c in zip(*self.board))
+
+    def is_diagonals(self):
+        """Check if one of the two diagonals have the 3 same symbol """
+        if self.board[1][1] is None:
+            return False
+
+        if self.board[0][0] == self.board[1][1] == self.board[2][2]:
+            return True
+
+        if self.board[0][2] == self.board[1][1] == self.board[2][0]:
+            return True
+
+        return False
 
 
 class Player:
