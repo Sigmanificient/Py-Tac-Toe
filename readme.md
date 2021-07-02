@@ -6,4 +6,4 @@
 ![Lines of code](https://img.shields.io/tokei/lines/github/Sigmanificient/Py-Tac-Toe)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Sigmanificient/Py-Tac-Toe)
     
-*A python oop Tic Tac Toe implementation.*
+*A python oop Tic Tac Toe console based implementation.*
